@@ -3,11 +3,8 @@ import {ScrollView, Text, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import {Layout} from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
-import { GoogleSignin } from '@react-native-community/google-signin';
+import {GoogleSignin} from '@react-native-community/google-signin';
 import Svg, {Circle, G, Path, Defs} from 'react-native-svg';
-
-
-
 
 import {K} from '../../store/constants';
 import {PageHeader} from '../../components/Page/PageHeader';
@@ -22,18 +19,16 @@ const HomePageC = (props: any) => {
   const themeFont = Platform.OS === 'ios' ? K.fonts.ios : K.fonts.android;
   var loggedIn = null;
   async function onGoogleButtonPress() {
+    const {idToken} = await GoogleSignin.signIn();
 
-    const { idToken } = await GoogleSignin.signIn();
-  
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  
-    return auth().signInWithCredential(googleCredential);
 
+    return auth().signInWithCredential(googleCredential);
   }
   GoogleSignin.configure({
-    webClientId: '1016139682272-62ol6b1c8phm74m4p059mmutov96prhu.apps.googleusercontent.com',
+    webClientId:
+      '1016139682272-62ol6b1c8phm74m4p059mmutov96prhu.apps.googleusercontent.com',
   });
-
 
   const SvgBackgroundGraphic = (svgProps: {isLarge?: boolean}) => (
     <View style={{position: 'absolute'}}>
@@ -61,7 +56,10 @@ const HomePageC = (props: any) => {
       </Svg>
     </View>
   );
-
+  // click handler for contacts
+  const ContactsHandler = () => {
+    props.navigation.navigate('Contacts');
+  };
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
 
@@ -79,27 +77,44 @@ const HomePageC = (props: any) => {
   if (initializing) return null;
 
   if (!user) {
-    loggedIn = false
-  }else if (user){
-    loggedIn = true  
+    loggedIn = false;
+  } else if (user) {
+    loggedIn = true;
   }
-  if (loggedIn == true){
-  return (
-    <Layout style={{height: '100%'}}>
-      <ScrollView>
-        <PageHeader
-          title="Home"
-          theme={props.theme}
-          type="large"
-          navigation={props.navigation}
-        />
-        <Layout style={{marginHorizontal: 20}}>
-          <ContentCard theme={props.theme} title='Finish Setup' body='Follow these steps to finish setup.' backgroundColor={themeColor.red} firstInPage/>
-        </Layout>
-      </ScrollView>
-    </Layout>
-  );}
-  if (loggedIn == false){
+  if (loggedIn == true) {
+    return (
+      <Layout style={{height: '100%'}}>
+        <ScrollView>
+          <PageHeader
+            title="Home"
+            theme={props.theme}
+            type="large"
+            navigation={props.navigation}
+          />
+          <Layout style={{marginHorizontal: 20}}>
+            <ContentCard
+              theme={props.theme}
+              title="Finish Setup"
+              body="Follow these steps to finish setup."
+              backgroundColor={themeColor.red}
+              firstInPage
+              gradient
+            />
+          </Layout>
+          <Layout>
+            <View>
+              <TextButton
+                theme={props.theme}
+                children="Contacts"
+                onPress={ContactsHandler}
+              />
+            </View>
+          </Layout>
+        </ScrollView>
+      </Layout>
+    );
+  }
+  if (loggedIn == false) {
     // this.props.navigator.toggleNavBar({
     //   to: 'hidden'
     // });
@@ -124,11 +139,10 @@ const HomePageC = (props: any) => {
     //     </View>
     //   </Layout>
     // );
-    props.navigation.navigate('Signup')
+    props.navigation.navigate('Signup');
     return null;
-}
-}
-
+  }
+};
 
 const mapStateToProps = (state: any) => {
   return {
@@ -141,4 +155,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {};
 };
 
-export const HomePage = connect(mapStateToProps, mapDispatchToProps)(HomePageC);
+export const HomePage = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomePageC);
