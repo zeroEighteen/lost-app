@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, Text, Platform} from 'react-native';
+import {StyleSheet, ScrollView, Text, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import {Layout} from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
@@ -60,6 +60,13 @@ const HomePageC = (props: any) => {
   const ContactsHandler = () => {
     props.navigation.navigate('Contacts');
   };
+  const contactsBtn = StyleSheet.create({
+    btn: {
+      width: '100%',
+      paddingRight: 60,
+      paddingLeft: 60,
+    },
+  });
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
 
@@ -101,12 +108,18 @@ const HomePageC = (props: any) => {
               gradient
             />
           </Layout>
-          <Layout>
+          <Layout
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <View>
               <TextButton
                 theme={props.theme}
                 children="Contacts"
                 onPress={ContactsHandler}
+                style={contactsBtn.btn}
               />
             </View>
           </Layout>

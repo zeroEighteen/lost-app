@@ -23,12 +23,11 @@ export const ContactsPage = (props: any) => {
       <PageHeader
         title="Contacts"
         theme={props.theme}
-        type="large"
+        type="small"
         navigation={props.navigation}
+        leadingButton="arrow-left"
+        onLeadingButtonPress={() => props.navigation.navigate('Home')}
       />
-      <View>
-        <Text>Hello There</Text>
-      </View>
     </ScrollView>
   );
 };
