@@ -39,7 +39,7 @@ import {ConnectPatientPage} from './src/pages/ConnectPatient';
 import {dbExistCheck} from './src/pages/dbExistCheck';
 import {ConnectCaretakerPage} from './src/pages/ConnectCaretaker';
 import {ContactsPage} from './src/pages/Contacts';
-
+import {AddContactPage} from './src/pages/AddContact';
 import {store} from './index.js';
 
 const Tab = createBottomTabNavigator();
@@ -67,6 +67,7 @@ const HomePageNest = () => {
       <Stack.Screen name="ConnectCaretaker" component={ConnectCaretakerPage} />
       <Stack.Screen name="dbExistCheck" component={dbExistCheck} />
       <Stack.Screen name="Contacts" component={ContactsPage} />
+      <Stack.Screen name="AddContact" component={AddContactPage} />
     </Stack.Navigator>
   );
 };

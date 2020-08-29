@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, Text, Platform} from 'react-native';
+import {ScrollView, Text, Platform, FlatList, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {Layout} from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
@@ -13,13 +13,47 @@ import {TextButton} from '../../components/Button/Text';
 import {ContentCard} from '../../components/Card/Content';
 import {LoginButton} from '../../components/Button/Login';
 import {SafeAreaView, View, Dimensions} from 'react-native';
+import {ImageCard} from './../../components/Card/Image';
 
 export const ContactsPage = (props: any) => {
   const themeColor = props.theme === 'dark' ? K.colors.dark : K.colors.light;
   const themeFont = Platform.OS === 'ios' ? K.fonts.ios : K.fonts.android;
 
+  const data = [
+    {
+      title: 'Dream',
+      img: 'dream.png',
+      relation: 'Parent',
+      number: '12345678',
+      key: 1,
+    },
+    {
+      title: 'Dream',
+      img: 'dream.png',
+      relation: 'Parent',
+      number: '12345678',
+      key: 2,
+    },
+    {
+      title: 'Dream',
+      img: 'dream.png',
+      relation: 'Parent',
+      number: '12345678',
+      key: 3,
+    },
+    {
+      title: 'Dream',
+      img: 'dream.png',
+      relation: 'Parent',
+      number: '12345678',
+      key: 4,
+    },
+  ];
+  const clickHandler = () => {
+    props.navigation.navigate('AddContact');
+  };
   return (
-    <ScrollView>
+    <View style={{alignItems: 'center'}}>
       <PageHeader
         title="Contacts"
         theme={props.theme}
@@ -28,6 +62,31 @@ export const ContactsPage = (props: any) => {
         leadingButton="arrow-left"
         onLeadingButtonPress={() => props.navigation.navigate('Home')}
       />
-    </ScrollView>
+      <FlatList
+        style={{width: '90%'}}
+        data={data}
+        renderItem={({item}) => (
+          <ImageCard
+            theme={this.theme}
+            title={item.title}
+            img={item.img}
+            relation={item.relation}
+            number={item.number}
+          />
+        )}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 80,
+          right: 10,
+        }}>
+        <TextButton
+          theme={this.theme}
+          children="Add someone"
+          onPress={clickHandler}
+        />
+      </View>
+    </View>
   );
 };
